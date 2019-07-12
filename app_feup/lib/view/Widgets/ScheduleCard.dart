@@ -51,7 +51,11 @@ class ScheduleCard extends StatelessWidget {
                 children: getScheduleRows(context, lectures),
               )
           );
-        else return Center(child: Text("Comunication error. Please check your internet connection."));
+        else {
+          final snackBar = SnackBar(content: Text("Comunication error. Please check your internet connection."));
+          Scaffold.of(context).showSnackBar(snackBar);
+          return Text("");
+        }
         break;
       default:
         return Container();

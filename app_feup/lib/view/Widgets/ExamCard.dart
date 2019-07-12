@@ -29,6 +29,7 @@ class ExamCard extends StatelessWidget{
   Widget getCardContent(BuildContext context, exams){
     switch (StoreProvider.of<AppState>(context).state.content['examsStatus']){
       case RequestStatus.SUCCESSFUL:
+        //Scaffold.of(context).hideCurrentSnackBar();
         return exams.length >= 1 ?
           Container(
               child: new Column(
@@ -49,7 +50,11 @@ class ExamCard extends StatelessWidget{
                 children: this.getExamRows(context, exams),
               )
           );
-        else return Center(child: Text("Comunication error. Please check your internet connection."));
+        else {
+          final snackBar = SnackBar(content: Text("Comunication error. Please check your internet connection."), duration: Duration(minutes: 1));
+          Scaffold.of(context).showSnackBar(snackBar);
+          return Center(child: Text("No exams t show at the moment"));
+        }
         break;
       default:
         return Container();
