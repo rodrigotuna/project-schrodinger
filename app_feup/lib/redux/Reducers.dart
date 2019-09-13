@@ -1,3 +1,4 @@
+
 import '../model/AppState.dart';
 import 'Actions.dart';
 
@@ -34,16 +35,12 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesStatus(state, action);
   } else if(action is SetCoursesStatesAction){
     return setCoursesState(state, action);
-  } else if(action is UpdateFavoriteCards) {
-    return updateFavoriteCards(state, action);
   } else if(action is SetCoursesStatesStatusAction){
     return setCoursesStateStatus(state, action);
   } else if (action is SetPrintRefreshTimeAction) {
     return setPrintRefreshTime(state, action);
   } else if (action is SetFeesRefreshTimeAction) {
     return setFeesRefreshTime(state, action);
-  } else if (action is SetHomePageEditingMode) {
-    return setHomePageEditingMode(state, action);
   }
   return state;
 }
@@ -97,7 +94,7 @@ AppState saveCurrUcs(AppState state, SaveUcsAction action) {
 }
 
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
-  print('setting print balance: ' + action.printBalance.toString());
+  print('setting print balance: ' + action.printBalance);
   return state.cloneAndUpdateValue("printBalance", action.printBalance);
 }
 
@@ -107,12 +104,12 @@ AppState setPrintBalanceStatus(AppState state, SetPrintBalanceStatusAction actio
 }
 
 AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {
-  print('setting fees balance: ' + action.feesBalance.toString());
+  print('setting fees balance: ' + action.feesBalance);
   return state.cloneAndUpdateValue("feesBalance", action.feesBalance);
 }
 
 AppState setFeesLimit(AppState state, SetFeesLimitAction action) {
-  print('setting next fees limit: ' + action.feesLimit.toString());
+  print('setting next fees limit: ' + action.feesLimit);
   return state.cloneAndUpdateValue("feesLimit", action.feesLimit);
 }
 
@@ -126,27 +123,18 @@ AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
   return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
 }
 
-AppState updateFavoriteCards(AppState state, UpdateFavoriteCards action) {
-  return state.cloneAndUpdateValue("favoriteCards", action.favoriteCards);
-}
-
 AppState setCoursesStateStatus(AppState state, SetCoursesStatesStatusAction action) {
   print('setting courses state status: ' + action.status.toString());
   return state.cloneAndUpdateValue("coursesStatesStatus", action.status);
 }
 
 AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {
-  print('setting print refresh time ' + action.time.toString());
+  print('setting print refresh time ' + action.time);
   return state.cloneAndUpdateValue("printRefreshTime", action.time);
 }
 
 AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
-  print('setting fees refresh time ' + action.time.toString());
+  print('setting fees refresh time ' + action.time);
   return state.cloneAndUpdateValue("feesRefreshTime", action.time);
-}
-
-AppState setHomePageEditingMode(AppState state, SetHomePageEditingMode action) {
-  print('setting home page editing mode to ' + action.state.toString());
-  return state.cloneAndUpdateValue("homePageEditingMode", action.state);
 }
 

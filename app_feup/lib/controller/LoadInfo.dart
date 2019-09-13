@@ -9,6 +9,7 @@ import 'package:redux/redux.dart';
 
 
 Future loadUserInfoToState(store) {
+
   loadLocalUserInfoToState(store);
   return loadRemoteUserInfoToState(store);
 
@@ -37,7 +38,6 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
 }
 
 void loadLocalUserInfoToState(store) async {
-  store.dispatch(UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
   Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
   if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
     store.dispatch(updateStateBasedOnLocalProfile());
