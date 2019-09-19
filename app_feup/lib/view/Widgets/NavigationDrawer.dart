@@ -27,7 +27,8 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Horário",
     "Mapa de Exames",
     "Sobre",
-    "Bug Report"
+    "Bug Report",
+    "Ementas"
   ];
 
   getCurrentRoute() => ModalRoute.of(parentContext).settings.name == null ? 

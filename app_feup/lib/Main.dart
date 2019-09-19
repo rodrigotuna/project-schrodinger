@@ -7,6 +7,7 @@ import 'package:app_feup/model/LoginPageModel.dart';
 import 'package:app_feup/view/Pages/AboutPageView.dart';
 import 'package:app_feup/view/Pages/BugReportPageView.dart';
 import 'package:app_feup/controller/Middleware.dart';
+import 'package:app_feup/view/Pages/MenusPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
@@ -67,6 +68,8 @@ class MyAppState extends State<MyApp> {
                 return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
               case '/Bug Report':
                 return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
+              case '/Ementas':
+                return MaterialPageRoute(builder: (context) => MenusPageView(), settings: settings);
               case '/Terminar sessão':
                 return MaterialPageRoute(builder: (context) { logout(context); return LoginPage();});
               }

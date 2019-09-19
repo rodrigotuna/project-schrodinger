@@ -1,3 +1,7 @@
+configurations{
+    all*.exclude module: "webview_flutter"
+}
+
 buildscript {
     repositories {
         google()
