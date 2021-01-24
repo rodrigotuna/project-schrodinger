@@ -11,7 +11,6 @@ import 'package:uni/redux/reducers.dart';
 import 'package:uni/view/Pages/about_page_view.dart';
 import 'package:uni/view/Pages/bug_report_page_view.dart';
 import 'package:uni/view/Pages/bus_stop_next_arrivals_page.dart';
-import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/login_page_view.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
@@ -70,9 +69,6 @@ class MyAppState extends State<MyApp> {
               case '/' + Constants.navSchedule:
                 return MaterialPageRoute(
                     builder: (context) => SchedulePage(), settings: settings);
-              case '/' + Constants.navExams:
-                return MaterialPageRoute(
-                    builder: (context) => ExamsPageView(), settings: settings);
               case '/' + Constants.navStops:
                 return MaterialPageRoute(
                     builder: (context) => BusStopNextArrivalsPage(),

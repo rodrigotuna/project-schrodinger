@@ -217,24 +217,8 @@ Future<List<Exam>> extractExams(
 ThunkAction<AppState> getUserExams(Completer<Null> action,
     ParserExams parserExams, Tuple2<String, String> userPersistentInfo) {
   return (Store<AppState> store) async {
-    try {
-      //need to get student course here
-      store.dispatch(SetExamsStatusAction(RequestStatus.busy));
-
-      final List<Exam> exams = await extractExams(store, parserExams);
-
-      // Updates local database according to the information fetched -- Exams
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppExamsDatabase db = AppExamsDatabase();
-        db.saveNewExams(exams);
-      }
-      store.dispatch(SetExamsStatusAction(RequestStatus.successful));
-      store.dispatch(SetExamsAction(exams));
-    } catch (e) {
-      Logger().e('Failed to get Exams');
-      store.dispatch(SetExamsStatusAction(RequestStatus.failed));
-    }
-
+    // Get the exam here! Make sure to use of `extractExams` defined. 
+    // Make sure to use `SetExamsAction` and `SetExamsStatusAction` 
     action.complete();
   };
 }
