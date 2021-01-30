@@ -21,8 +21,8 @@ class ParserExams {
     return '?';
   }
 
-  Future<List<Exam>> parseExams(http.Response response) async {
-    final document = parse(response.body);
+  Future<List<Exam>> parseExams(String body) async {
+    final document = parse(body);
 
     final List<Exam> examsList = List();
     final List<String> dates = List();

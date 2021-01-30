@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
@@ -26,6 +27,7 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:uni/redux/actions.dart';
 import '../model/entities/bus_stop.dart';
 import 'package:redux/redux.dart';
@@ -184,40 +186,15 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
 
 Future<List<Exam>> extractExams(
     Store<AppState> store, ParserExams parserExams) async {
-  List<Exam> courseExams = List();
-  for (Course course in store.state.content['profile'].courses) {
-    final List<Exam> currentCourseExams = await parserExams.parseExams(
-        await NetworkRouter.getWithCookies(
-            NetworkRouter.getBaseUrlFromSession(
-                    store.state.content['session']) +
-                'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
-            {},
-            store.state.content['session']));
-    courseExams = List.from(courseExams)..addAll(currentCourseExams);
-  }
-
-  final DateTime now = DateTime.now();
-
-  final List<CourseUnit> userUcs = store.state.content['currUcs'];
-  final List<Exam> exams = List<Exam>();
-  for (Exam courseExam in courseExams) {
-    for (CourseUnit uc in userUcs) {
-      if (!courseExam.examType.contains(
-              '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
-          courseExam.subject == uc.abbreviation &&
-          now.compareTo(courseExam.date) <= 0) {
-        exams.add(courseExam);
-        break;
-      }
-    }
-  }
-  return exams;
+  final exams = await rootBundle.loadString('assets/exams.html');
+  final List<Exam> examsList = await parserExams.parseExams(exams);
+  return examsList;
 }
 
 ThunkAction<AppState> getUserExams(Completer<Null> action,
     ParserExams parserExams, Tuple2<String, String> userPersistentInfo) {
   return (Store<AppState> store) async {
-    // Get the exam here! Make sure to use of `extractExams` defined. 
+    //TODO: Get the exam here! Make sure to use of `extractExams` defined. 
     // Make sure to use `SetExamsAction` and `SetExamsStatusAction` 
     action.complete();
   };
