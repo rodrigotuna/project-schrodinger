@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:logger/logger.dart';
 
 var months = {
@@ -74,6 +76,22 @@ class Exam {
       'year': year
     };
   }
+
+  @override
+  int get hashCode =>
+      hashValues(subject, begin, end, rooms, day, weekDay, month, year);
+
+  @override
+  bool operator ==(o) =>
+      o is Exam &&
+      this.subject == o.subject &&
+      this.begin == o.begin &&
+      this.end == o.end &&
+      this.rooms == o.rooms &&
+      this.day == o.day &&
+      this.weekDay == o.weekDay &&
+      this.month == o.month &&
+      this.year == o.year;
 
   bool hasEnded() {
     final DateTime now = DateTime.now();

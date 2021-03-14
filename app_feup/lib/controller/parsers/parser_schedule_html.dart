@@ -10,7 +10,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
 
   var semana = [0, 0, 0, 0, 0, 0];
 
-  final List<Lecture> lecturesList = List();
+  final Set<Lecture> lecturesList = Set();
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
       var day = 0;
@@ -47,7 +47,6 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
       semana = semana.expand((i) => [(i - 1) < 0 ? 0 : i - 1]).toList();
     }
   });
-  lecturesList.sort((a, b) => a.compare(b));
 
-  return lecturesList;
+  return lecturesList.toList()..sort((a, b) => a.compare(b));
 }
