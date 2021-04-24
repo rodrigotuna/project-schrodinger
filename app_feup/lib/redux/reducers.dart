@@ -20,6 +20,10 @@ AppState appReducers(AppState state, dynamic action) {
     return saveProfile(state, action);
   } else if (action is SaveProfileStatusAction) {
     return saveProfileStatus(state, action);
+  } else if (action is SaveSessionAction) {
+    return saveSession(state, action);
+  } else if (action is SaveSessionStatusAction) {
+    return saveSessionStatus(state, action);
   } else if (action is SaveUcsAction) {
     return saveCurrUcs(state, action);
   } else if (action is SetPrintBalanceAction) {
@@ -101,6 +105,15 @@ AppState saveProfile(AppState state, SaveProfileAction action) {
 AppState saveProfileStatus(AppState state, SaveProfileStatusAction action) {
   Logger().i('setting profile status: ' + action.status.toString());
   return state.cloneAndUpdateValue('profileStatus', action.status);
+}
+
+AppState saveSession(AppState state, SaveSessionAction action) {
+  return state.cloneAndUpdateValue('session', action.session);
+}
+
+AppState saveSessionStatus(AppState state, SaveSessionStatusAction action) {
+  Logger().i('setting Session status: ' + action.status.toString());
+  return state.cloneAndUpdateValue('sessionStatus', action.status);
 }
 
 AppState saveCurrUcs(AppState state, SaveUcsAction action) {

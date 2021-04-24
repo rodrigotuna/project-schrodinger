@@ -79,6 +79,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
 }
 
 void loadLocalUserInfoToState(store) async {
+  print('ENTERING loadLocalUserInfoToState');
   store.dispatch(
       UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
   store.dispatch(SetExamFilter(await AppSharedPreferences.getFilteredExams()));
@@ -92,6 +93,9 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalRefreshTimes());
     store.dispatch(updateStateBasedOnLocalTime());
     store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
+    //TODO
+    store.dispatch(SaveSessionStatusAction(RequestStatus.successful));
+
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
     store.dispatch(SetFeesStatusAction(RequestStatus.successful));
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));

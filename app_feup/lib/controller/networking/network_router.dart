@@ -65,8 +65,11 @@ class NetworkRouter {
 
   static Future<bool> loginFromSession(Session session) async {
     Logger().i('Trying to login...');
+    //TODO
+    //final String url =
+    //    NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
     final String url =
-        NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
+        NetworkRouter.getBaseUrlLogin() + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': session.studentNumber,
       'pv_password': await AppSharedPreferences.getUserPassword(),
@@ -98,8 +101,10 @@ class NetworkRouter {
   }
 
   static Future<Profile> getProfile(Session session) async {
+    //TODO Ele aqui ja precisa da faculdade!
     final url =
         NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
+
     final response = await getWithCookies(
         url, {'pv_codigo': session.studentNumber}, session);
 
@@ -272,6 +277,14 @@ class NetworkRouter {
   }
 
   static String getBaseUrlFromSession(Session session) {
-    return NetworkRouter.getBaseUrl(session.faculty);
+    //TODO Ele esta sempre a entrar na primeira quando nao inicializo a session
+    if (session.faculty != null) {
+      print('Estou a entrar no getBaseUrlFromSession COM AQUILO A NULL');
+      return NetworkRouter.getBaseUrlLogin();
+    } else {
+      print('Estou a entrar no getBaseUrlFromSession com a faculty:');
+      print(session.faculty);
+      return NetworkRouter.getBaseUrl(session.faculty);
+    }
   }
 }

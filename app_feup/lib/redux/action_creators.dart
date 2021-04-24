@@ -52,6 +52,7 @@ ThunkAction<AppState> reLogin(username, password, {Completer action}) {
       final Session renewSession =
           Session(studentNumber: username, authenticated: false);
       renewSession.persistentSession = true;
+      //TODO NAO SEI SE DEVIA COMENTAR ESTE
       renewSession.faculty = 'feup';
 
       action?.completeError(RequestStatus.failed);
@@ -109,8 +110,15 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
       print("GET USER INFO FACULTY:");
       print(userProfile.facultyAbbrev);
 
-      store.state.content['session']
-          .setLowerCaseFaculty(userProfile.facultyAbbrev);
+      //TODO Sera que isto esta mesmo a dar set?
+      //Acho que ele nao esta a guardar direito a faculty
+      store.dispatch(SaveSessionStatusAction(RequestStatus.busy));
+
+      Session session = store.state.content['session'];
+      session.setLowerCaseFaculty(userProfile.facultyAbbrev);
+
+      store.dispatch(SaveSessionAction(session));
+      store.dispatch(SaveSessionStatusAction(RequestStatus.successful));
 
       print('SESSION FACULTY');
       print(store.state.content['session'].faculty);

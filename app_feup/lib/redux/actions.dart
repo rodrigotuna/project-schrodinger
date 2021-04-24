@@ -53,6 +53,16 @@ class SaveProfileStatusAction {
   SaveProfileStatusAction(this.status);
 }
 
+class SaveSessionAction {
+  Session session;
+  SaveSessionAction(this.session);
+}
+
+class SaveSessionStatusAction {
+  RequestStatus status;
+  SaveSessionStatusAction(this.status);
+}
+
 class SaveUcsAction {
   List<CourseUnit> ucs;
   SaveUcsAction(this.ucs);
