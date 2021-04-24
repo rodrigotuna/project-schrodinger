@@ -16,8 +16,6 @@ class LoginPageView extends StatefulWidget {
 }
 
 class _LoginPageViewState extends State<LoginPageView> {
-  final String faculty = 'feup';
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -43,8 +41,8 @@ class _LoginPageViewState extends State<LoginPageView> {
         _formKey.currentState.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      store.dispatch(login(user, pass, faculty, _keepSignedIn,
-          usernameController, passwordController));
+      store.dispatch(login(
+          user, pass, _keepSignedIn, usernameController, passwordController));
     }
   }
 
@@ -78,7 +76,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets =  [];
+    final List<Widget> widgets = [];
 
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
@@ -250,12 +248,13 @@ class _LoginPageViewState extends State<LoginPageView> {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (oldStatus, status) {
-          if (
-            status == RequestStatus.successful &&
-            StoreProvider.of<AppState>(context).
-              state.content['session'].authenticated
-          ){
-            Navigator.pushReplacementNamed(context, '/' + Constants.navPersonalArea);
+          if (status == RequestStatus.successful &&
+              StoreProvider.of<AppState>(context)
+                  .state
+                  .content['session']
+                  .authenticated) {
+            Navigator.pushReplacementNamed(
+                context, '/' + Constants.navPersonalArea);
           } else if (status == RequestStatus.failed) {
             displayToastMessage(context, 'O login falhou');
           }

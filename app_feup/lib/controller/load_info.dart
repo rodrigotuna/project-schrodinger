@@ -20,7 +20,7 @@ Future loadReloginInfo(Store<AppState> store) async {
   final String password = userPersistentInfo.item2;
   if (userName != '' && password != '') {
     final action = Completer();
-    store.dispatch(reLogin(userName, password, 'feup', action: action));
+    store.dispatch(reLogin(userName, password, action: action));
     return action.future;
   }
   return Future.error('No credentials stored');

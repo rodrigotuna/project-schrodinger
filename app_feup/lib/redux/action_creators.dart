@@ -32,13 +32,13 @@ import 'package:uni/redux/actions.dart';
 import '../model/entities/bus_stop.dart';
 import 'package:redux/redux.dart';
 
-ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
+ThunkAction<AppState> reLogin(username, password, {Completer action}) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
       final Session session =
-          await NetworkRouter.login(username, password, faculty, true);
+          await NetworkRouter.login(username, password, true);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         await loadRemoteUserInfoToState(store);
@@ -52,7 +52,7 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
       final Session renewSession =
           Session(studentNumber: username, authenticated: false);
       renewSession.persistentSession = true;
-      renewSession.faculty = faculty;
+      renewSession.faculty = 'feup';
 
       action?.completeError(RequestStatus.failed);
 
@@ -62,13 +62,13 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   };
 }
 
-ThunkAction<AppState> login(username, password, faculty, persistentSession,
+ThunkAction<AppState> login(username, password, persistentSession,
     usernameController, passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
-      final Session session = await NetworkRouter.login(
-          username, password, faculty, persistentSession);
+      final Session session =
+          await NetworkRouter.login(username, password, persistentSession);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));

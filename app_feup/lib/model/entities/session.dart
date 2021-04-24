@@ -5,7 +5,7 @@ import 'package:uni/controller/networking/network_router.dart';
 class Session {
   bool authenticated;
   bool persistentSession = false;
-  String faculty = 'feup'; // should not be hardcoded
+  String faculty = 'fpceup'; // should not be hardcoded
   //TODO String faculty;
   String type;
   String cookies;

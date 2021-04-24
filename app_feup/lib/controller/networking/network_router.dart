@@ -14,7 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
-extension UriString on String{
+
+extension UriString on String {
   Uri toUri() => Uri.parse(this);
 }
 
@@ -27,11 +28,10 @@ class NetworkRouter {
 
   static Function onReloginFail = () {};
 
-
   static Future<Session> login(
-      String user, String pass, String faculty, bool persistentSession) async {
+      String user, String pass, bool persistentSession) async {
     final String url =
-        NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
+        NetworkRouter.getBaseUrlLogin() + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
@@ -256,6 +256,15 @@ class NetworkRouter {
     }
 
     return buses;
+  }
+
+  static String getBaseUrlLogin() {
+    return 'https://sigarra.up.pt/feup/pt/';
+  }
+
+  static String getBaseUrlUP() {
+    //TODO Make login with up would make sense
+    return 'https://sigarra.up.pt/';
   }
 
   static String getBaseUrl(String faculty) {
