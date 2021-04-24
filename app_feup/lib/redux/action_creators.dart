@@ -73,6 +73,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession,
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         await loadUserInfoToState(store);
+
         if (persistentSession) {
           AppSharedPreferences.savePersistentUserInfo(username, password);
         }
@@ -104,6 +105,15 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
           NetworkRouter.getCurrentCourseUnits(store.state.content['session'])
               .then((res) => store.dispatch(SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
+      //TODO save faculty
+      print("GET USER INFO FACULTY:");
+      print(userProfile.facultyAbbrev);
+
+      store.state.content['session']
+          .setLowerCaseFaculty(userProfile.facultyAbbrev);
+
+      print('SESSION FACULTY');
+      print(store.state.content['session'].faculty);
 
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();

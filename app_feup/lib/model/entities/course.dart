@@ -22,6 +22,7 @@ class Course {
         festId: data['fest_id'],
         name: data['cur_nome'],
         currYear: data['ano_curricular'],
+        abbreviation: data['inst_sigla'],
         firstEnrollment: data['fest_a_lect_1_insc']);
   }
 

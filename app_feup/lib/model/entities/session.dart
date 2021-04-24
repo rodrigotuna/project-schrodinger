@@ -6,6 +6,7 @@ class Session {
   bool authenticated;
   bool persistentSession = false;
   String faculty = 'feup'; // should not be hardcoded
+  //TODO String faculty;
   String type;
   String cookies;
   String studentNumber;
@@ -28,5 +29,10 @@ class Session {
     } else {
       return Session(authenticated: false);
     }
+  }
+
+  void setLowerCaseFaculty(String upperFaculty) {
+    print('Setting Session faculty');
+    faculty = upperFaculty.toLowerCase();
   }
 }

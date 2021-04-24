@@ -5,6 +5,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tuple/tuple.dart';
 
+//TODO save faculty
 class AppUserDataDatabase extends AppDatabase {
   AppUserDataDatabase()
       : super('userdata.db', ['CREATE TABLE userdata(key TEXT, value TEXT)']);
