@@ -29,7 +29,7 @@ class NetworkRouter {
   static Function onReloginFail = () {};
 
   static Future<Session> login(
-      String user, String pass, bool persistentSession) async {
+      String user, String pass, bool persistentSession, faculty) async {
     final String url =
         NetworkRouter.getBaseUrlLogin() + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
@@ -37,7 +37,7 @@ class NetworkRouter {
       'pv_password': pass
     }).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
-      final Session session = Session.fromLogin(response);
+      final Session session = Session.fromLogin(response, faculty);
       session.persistentSession = persistentSession;
       Logger().i('Login successful');
       return session;
@@ -264,6 +264,7 @@ class NetworkRouter {
   }
 
   static String getBaseUrlLogin() {
+    //TODO afinal isto tem de estar com a faucldade!
     return 'https://sigarra.up.pt/feup/pt/';
   }
 
@@ -279,12 +280,12 @@ class NetworkRouter {
   static String getBaseUrlFromSession(Session session) {
     //TODO Ele esta sempre a entrar na primeira quando nao inicializo a session
     if (session.faculty != null) {
-      print('Estou a entrar no getBaseUrlFromSession COM AQUILO A NULL');
-      return NetworkRouter.getBaseUrlLogin();
-    } else {
-      print('Estou a entrar no getBaseUrlFromSession com a faculty:');
+      print('Estou a entrar no getBaseUrlFromSession COM A FACULTY');
       print(session.faculty);
       return NetworkRouter.getBaseUrl(session.faculty);
+    } else {
+      print('Estou a entrar no getBaseUrlFromSession SEM a faculty :');
+      return NetworkRouter.getBaseUrlLogin();
     }
   }
 }

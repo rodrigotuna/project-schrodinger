@@ -34,6 +34,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   static bool _exitApp = false;
   bool _keepSignedIn = false;
   bool _obscurePasswordInput = true;
+  String faculty = 'feup';
 
   void _login(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
@@ -41,8 +42,8 @@ class _LoginPageViewState extends State<LoginPageView> {
         _formKey.currentState.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      store.dispatch(login(
-          user, pass, _keepSignedIn, usernameController, passwordController));
+      store.dispatch(login(user, pass, _keepSignedIn, usernameController,
+          passwordController, faculty));
     }
   }
 
@@ -149,9 +150,48 @@ class _LoginPageViewState extends State<LoginPageView> {
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createPasswordInput(),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
+          getCheckboxFaculties(),
+          Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createSaveDataCheckBox()
         ]),
       ),
+    );
+  }
+
+  List<String> getCourses() {
+    return <String>[
+      'faup',
+      'fbaup',
+      'fcup',
+      'fcnaup',
+      'fadeup',
+      'fdup',
+      'fep',
+      'feup',
+      'ffup',
+      'flup',
+      'fmup',
+      'fmdup',
+      'fpceup',
+      'icbas',
+      'pbs'
+    ];
+  }
+
+  Widget getCheckboxFaculties() {
+    return DropdownButton<String>(
+      // style: TextStyle(color: Colors.white, fontSize: 20),
+      items: getCourses().map((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+          ),
+        );
+      }).toList(),
+      onChanged: (fac) {
+        faculty = fac;
+      },
     );
   }
 

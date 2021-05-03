@@ -37,8 +37,9 @@ ThunkAction<AppState> reLogin(username, password, {Completer action}) {
     try {
       loadLocalUserInfoToState(store);
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
+      //TODO Agora com a checkbox falta guardar as informaçoes localmente
       final Session session =
-          await NetworkRouter.login(username, password, true);
+          await NetworkRouter.login(username, password, true, 'feup');
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         await loadRemoteUserInfoToState(store);
@@ -52,7 +53,7 @@ ThunkAction<AppState> reLogin(username, password, {Completer action}) {
       final Session renewSession =
           Session(studentNumber: username, authenticated: false);
       renewSession.persistentSession = true;
-      //TODO NAO SEI SE DEVIA COMENTAR ESTE
+      //TODO NAO SEI SE DEVIA COMENTAR ESTE, PARA QUE SERCE O RELOGIN?
       renewSession.faculty = 'feup';
 
       action?.completeError(RequestStatus.failed);
@@ -64,12 +65,12 @@ ThunkAction<AppState> reLogin(username, password, {Completer action}) {
 }
 
 ThunkAction<AppState> login(username, password, persistentSession,
-    usernameController, passwordController) {
+    usernameController, passwordController, faculty) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
-      final Session session =
-          await NetworkRouter.login(username, password, persistentSession);
+      final Session session = await NetworkRouter.login(
+          username, password, persistentSession, faculty);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));

@@ -16,15 +16,17 @@ class Session {
       {@required bool this.authenticated,
       this.studentNumber,
       this.type,
-      this.cookies}) {}
+      this.cookies,
+      this.faculty}) {}
 
-  static Session fromLogin(dynamic response) {
+  static Session fromLogin(dynamic response, String fac) {
     final responseBody = json.decode(response.body);
     if (responseBody['authenticated']) {
       return Session(
           authenticated: true,
           studentNumber: responseBody['codigo'],
           type: responseBody['tipo'],
+          faculty: fac,
           cookies: NetworkRouter.extractCookies(response.headers));
     } else {
       return Session(authenticated: false);
