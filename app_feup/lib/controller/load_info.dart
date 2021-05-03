@@ -14,13 +14,14 @@ import 'package:uni/redux/refresh_items_action.dart';
 import 'local_storage/app_shared_preferences.dart';
 
 Future loadReloginInfo(Store<AppState> store) async {
-  final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+  final Tuple3<String, String, String> userPersistentInfo =
+      await AppSharedPreferences.getPersistentUserInfoWFac();
   final String userName = userPersistentInfo.item1;
   final String password = userPersistentInfo.item2;
-  if (userName != '' && password != '') {
+  final String faculty = userPersistentInfo.item3;
+  if (userName != '' && password != '' && faculty != '') {
     final action = Completer();
-    store.dispatch(reLogin(userName, password, action: action));
+    store.dispatch(reLogin(userName, password, faculty, action: action));
     return action.future;
   }
   return Future.error('No credentials stored');

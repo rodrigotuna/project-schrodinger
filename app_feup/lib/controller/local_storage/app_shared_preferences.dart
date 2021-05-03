@@ -10,6 +10,7 @@ import 'package:uni/model/home_page_model.dart';
 class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
+  static final String faculty = 'faculty';
   static final int keyLength = 32;
   static final int ivLength = 16;
   static final iv = IV.fromLength(ivLength);
@@ -24,16 +25,18 @@ class AppSharedPreferences {
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
 
-  static Future savePersistentUserInfo(user, pass) async {
+  static Future savePersistentUserInfo(user, pass, fac) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(userNumber, user);
     prefs.setString(userPw, encode(pass));
+    prefs.setString(faculty, fac);
   }
 
   static Future removePersistentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(userNumber);
     prefs.remove(userPw);
+    prefs.remove(faculty);
   }
 
   static Future<Tuple2<String, String>> getPersistentUserInfo() async {
@@ -42,9 +45,23 @@ class AppSharedPreferences {
     return Tuple2(userNum, userPass);
   }
 
+  static Future<Tuple3<String, String, String>>
+      getPersistentUserInfoWFac() async {
+    final String userNum = await getUserNumber();
+    final String userPass = await getUserPassword();
+    final String fac = await getUserFaculty();
+    return Tuple3(userNum, userPass, fac);
+  }
+
   static Future<String> getUserNumber() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(userNumber) ??
+        ''; // empty string for the case it does not exist
+  }
+
+  static Future<String> getUserFaculty() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(faculty) ??
         ''; // empty string for the case it does not exist
   }
 

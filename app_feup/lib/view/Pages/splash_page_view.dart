@@ -83,13 +83,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void startTimeAndChangeRoute() async {
     Route<Object> nextRoute;
-    final Tuple2<String, String> userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
+    final Tuple3<String, String, String> userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfoWFac();
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
-    if (userName != '' && password != '') {
+    final String faculty = userPersistentInfo.item3;
+    if (userName != '' && password != '' && faculty != '') {
       nextRoute = MaterialPageRoute(builder: (context) => HomePageView());
-      StoreProvider.of<AppState>(context).dispatch(reLogin(userName, password));
+      StoreProvider.of<AppState>(context)
+          .dispatch(reLogin(userName, password, faculty));
     } else {
       nextRoute = MaterialPageRoute(builder: (context) => LoginPageView());
     }

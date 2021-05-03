@@ -32,14 +32,14 @@ import 'package:uni/redux/actions.dart';
 import '../model/entities/bus_stop.dart';
 import 'package:redux/redux.dart';
 
-ThunkAction<AppState> reLogin(username, password, {Completer action}) {
+ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
       //TODO Agora com a checkbox falta guardar as informaçoes localmente
       final Session session =
-          await NetworkRouter.login(username, password, true, 'feup');
+          await NetworkRouter.login(username, password, true, faculty);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         await loadRemoteUserInfoToState(store);
@@ -54,7 +54,7 @@ ThunkAction<AppState> reLogin(username, password, {Completer action}) {
           Session(studentNumber: username, authenticated: false);
       renewSession.persistentSession = true;
       //TODO NAO SEI SE DEVIA COMENTAR ESTE, PARA QUE SERCE O RELOGIN?
-      renewSession.faculty = 'feup';
+      renewSession.faculty = faculty;
 
       action?.completeError(RequestStatus.failed);
 
@@ -77,7 +77,8 @@ ThunkAction<AppState> login(username, password, persistentSession,
         await loadUserInfoToState(store);
 
         if (persistentSession) {
-          AppSharedPreferences.savePersistentUserInfo(username, password);
+          AppSharedPreferences.savePersistentUserInfo(
+              username, password, faculty);
         }
         usernameController.clear();
         passwordController.clear();
