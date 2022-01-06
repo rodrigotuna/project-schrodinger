@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,22 +8,22 @@ import 'package:uni/controller/middleware.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 import 'package:uni/view/Pages/about_page_view.dart';
 import 'package:uni/view/Pages/bug_report_page_view.dart';
 import 'package:uni/view/Pages/bus_stop_next_arrivals_page.dart';
 import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
-import 'package:uni/view/Pages/login_page_view.dart';
+import 'package:uni/view/Pages/logout_route.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
 import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
-import 'package:uni/utils/constants.dart' as Constants;
 
-import 'controller/logout.dart';
 import 'controller/on_start_up.dart';
 import 'model/schedule_page_model.dart';
 
+/// Stores the state of the app
 final Store<AppState> state = Store<AppState>(appReducers,
     /* Function defined in the reducers file */
     initialState: AppState(null),
@@ -33,6 +34,10 @@ void main() {
   runApp(MyApp());
 }
 
+/// Manages the state of the app
+/// 
+/// This class is necessary to track the app's state for
+/// the current execution
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -44,6 +49,7 @@ class MyApp extends StatefulWidget {
   }
 }
 
+/// Manages the app depending on its current state
 class MyAppState extends State<MyApp> {
   MyAppState({@required this.state}) {}
 
@@ -58,7 +64,7 @@ class MyAppState extends State<MyApp> {
       store: state,
       child: MaterialApp(
           title: 'uni',
-          theme: applicationTheme,
+          theme: applicationLightTheme,
           home: SplashScreen(),
           navigatorKey: NavigationService.navigatorKey,
           // ignore: missing_return
@@ -85,10 +91,7 @@ class MyAppState extends State<MyApp> {
                     settings: settings,
                     maintainState: false);
               case '/' + Constants.navLogOut:
-                return MaterialPageRoute(builder: (context) {
-                  logout(context);
-                  return LoginPageView();
-                });
+                return LogoutRoute.buildLogoutRoute();
             }
           }),
     );

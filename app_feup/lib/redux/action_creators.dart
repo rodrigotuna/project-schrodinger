@@ -1,6 +1,11 @@
 import 'dart:async';
+
 import 'package:logger/logger.dart';
+import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/controller/load_info.dart';
+import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
@@ -11,10 +16,10 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
-import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/controller/parsers/parser_print_balance.dart';
-import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/parsers/parser_exams.dart';
+import 'package:uni/controller/parsers/parser_fees.dart';
+import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_html.dart';
@@ -26,11 +31,9 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:redux_thunk/redux_thunk.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/redux/actions.dart';
+
 import '../model/entities/bus_stop.dart';
-import 'package:redux/redux.dart';
 
 ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   return (Store<AppState> store) async {
@@ -78,6 +81,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession,
         }
         usernameController.clear();
         passwordController.clear();
+        await acceptTermsAndConditions();
       } else {
         store.dispatch(SetLoginStatusAction(RequestStatus.failed));
       }
@@ -186,20 +190,20 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
 
 Future<List<Exam>> extractExams(
     Store<AppState> store, ParserExams parserExams) async {
-  List<Exam> courseExams = [];
+  Set<Exam> courseExams = Set();
   for (Course course in store.state.content['profile'].courses) {
-    final List<Exam> currentCourseExams = await parserExams.parseExams(
+    final Set<Exam> currentCourseExams = await parserExams.parseExams(
         await NetworkRouter.getWithCookies(
             NetworkRouter.getBaseUrlFromSession(
                     store.state.content['session']) +
                 'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
             {},
             store.state.content['session']));
-    courseExams = List.from(courseExams)..addAll(currentCourseExams);
+    courseExams = Set.from(courseExams)..addAll(currentCourseExams);
   }
 
   final List<CourseUnit> userUcs = store.state.content['currUcs'];
-  final List<Exam> exams = <Exam>[];
+  final Set<Exam> exams = Set();
   for (Exam courseExam in courseExams) {
     for (CourseUnit uc in userUcs) {
       if (!courseExam.examType.contains(
@@ -211,7 +215,8 @@ Future<List<Exam>> extractExams(
       }
     }
   }
-  return exams;
+
+  return exams.toList();
 }
 
 ThunkAction<AppState> getUserExams(Completer<Null> action,
