@@ -58,6 +58,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                           fontWeight:
                           FontWeight.bold,
                         ),
+                      ),
                     ),
 
                 );
