@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RequestDependentWidgetBuilder extends StatelessWidget {
   const RequestDependentWidgetBuilder({
@@ -45,7 +46,21 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             }
             return contentChecker
                 ? contentGenerator(content, context)
-                : Center(child: CircularProgressIndicator());
+                : Center(
+                    child: Shimmer.fromColors(
+                      baseColor: Color.fromRGBO(140, 45, 20, 1),
+                      highlightColor: Color.fromRGBO(200, 200, 200, 1),
+                      child: Text(
+                        'Placeholder',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 40.0,
+                          fontWeight:
+                          FontWeight.bold,
+                        ),
+                    ),
+
+                );
           case RequestStatus.failed:
           default:
             return contentChecker
@@ -59,3 +74,5 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
     );
   }
 }
+
+
