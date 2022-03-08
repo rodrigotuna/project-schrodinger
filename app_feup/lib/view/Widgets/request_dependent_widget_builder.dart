@@ -47,16 +47,18 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             return contentChecker
                 ? contentGenerator(content, context)
                 : Center(
-                    child: Shimmer.fromColors(
-                      baseColor: Color.fromRGBO(140, 45, 20, 1),
-                      highlightColor: Color.fromRGBO(200, 200, 200, 1),
-                      child: Text(
-                        'Placeholder',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 40.0,
-                          fontWeight:
-                          FontWeight.bold,
+                    child: Container(
+                      width: 400.0,
+                      height: 175.0,
+                      alignment: Alignment.center,
+                      child: Shimmer.fromColors(
+                        baseColor: Color.fromRGBO(255,255,255,1),
+                        highlightColor: Color.fromRGBO(140, 45, 20, 1),
+                        child: Container(
+                          width: 400.0,
+                          height: 25.0,
+                          color : Color.fromRGBO(255,255,255,1),
+
                         ),
                       ),
                     ),
