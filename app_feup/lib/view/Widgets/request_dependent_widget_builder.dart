@@ -55,7 +55,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                         baseColor: Color.fromRGBO(255,255,255,1),
                         highlightColor: Color.fromRGBO(140, 45, 20, 1),
                         child: Container(
-                          width: 400.0,
+                          width: 100.0,
                           height: 25.0,
                           color : Color.fromRGBO(255,255,255,1),
 
