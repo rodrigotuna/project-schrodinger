@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/schedule_page_view.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key key}) : super(key: key);
@@ -20,13 +21,7 @@ class _SchedulePageState extends SecondaryPageViewState
   TabController tabController;
   ScrollController scrollViewController;
 
-  final List<String> daysOfTheWeek = [
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira'
-  ];
+  final List<String> daysOfTheWeek = TimeString.weekdays.sublist(0, 5);
 
   List<List<Lecture>> _groupLecturesByDay(schedule) {
     final aggLectures = <List<Lecture>>[];

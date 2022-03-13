@@ -1,17 +1,9 @@
 import 'package:flutter/rendering.dart';
 import 'package:logger/logger.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 /// Stores information about a lecture.
 class Lecture {
-  static var dayName = [
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira',
-    'Sábado',
-    'Domingo'
-  ];
   String subject;
   String startTime;
   String endTime;
@@ -137,7 +129,7 @@ class Lecture {
   /// Prints the data in this lecture to the [Logger] with an INFO level.
   printLecture() {
     Logger().i(subject + ' ' + typeClass);
-    Logger().i(dayName[day] +
+    Logger().i(TimeString.weekdays[day] +
         ' ' +
         startTime +
         ' ' +
