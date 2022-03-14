@@ -2,11 +2,11 @@ import 'package:intl/intl.dart';
 
 extension TimeString on DateTime {
   static const weekdays = [
-    'Segunda',
-    'Terça',
-    'Quarta',
-    'Quinta',
-    'Sexta',
+    'Segunda-Feira',
+    'Terça-Feira',
+    'Quarta-Feira',
+    'Quinta-Feira',
+    'Sexta-Feira',
     'Sábado',
     'Domingo'
   ];
