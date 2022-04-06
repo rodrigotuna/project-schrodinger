@@ -30,12 +30,15 @@ Container infoText(String text, BuildContext context,
   final double marginBottom = last ? 8.0 : 0.0;
   return Container(
       margin: EdgeInsets.only(top: 8, bottom: marginBottom, left: 20.0),
-      child: InkWell(
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.headline3,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: InkWell(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.headline3,
+          ),
+          onTap: () => link != '' ? launch(link) : null,
         ),
-        onTap: () => link != '' ? launch(link) : null,
       ));
 }
 
