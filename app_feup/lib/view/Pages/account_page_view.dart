@@ -63,10 +63,10 @@ class AccountPageView extends StatelessWidget {
   }
 
   Widget createMissingPayments(context) {
-    return Center(child: Text('Missing Payments.'));
+    return Center(child: Text('Não existem despesas não saldadas.'));
   }
 
   Widget createAccountStatement(context) {
-    return Center(child: Text('Account Statement.'));
+    return Center(child: Text('Não existem movimentos.'));
   }
 }
