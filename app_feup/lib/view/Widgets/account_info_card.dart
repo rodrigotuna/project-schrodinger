@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 
 import 'generic_card.dart';
 
@@ -70,5 +71,6 @@ class AccountInfoCard extends GenericCard {
   String getTitle() => 'Conta Corrente';
 
   @override
-  onClick(BuildContext context) {}
+  onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/' + Constants.navAccount);
 }
